@@ -1,6 +1,8 @@
 blueprint:
   name: RIKA – Delta-Temperaturregelung (Wohnbereich)
-  description: Setzt die Heizleistung basierend auf dem Template-Sensor
+  description: >
+    Regelt automatisch die Heizleistung des RIKA-Ofens basierend auf der Raumtemperatur,
+    Solltemperatur, Hysterese und Ofenstatus.
   domain: automation
 
   input:
@@ -36,10 +38,17 @@ trigger:
   - platform: state
     entity_id: !input berechneter_sensor
 
+  - platform: state
+    entity_id: !input ofen_schalter
+
 condition:
   - condition: state
     entity_id: !input ofen_schalter
     state: "on"
+
+  - condition: template
+    value_template: >
+      {{ states('!input heizstatus') | lower == 'true' }}
 
 action:
   - service: number.set_value
