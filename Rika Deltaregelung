@@ -41,7 +41,7 @@ trigger:
     minutes: "/1"
 
 condition:
-  # Nur prüfen, ob der Ofen eingeschaltet ist
+  # Prüfen, ob der Ofen eingeschaltet ist
   - condition: state
     entity_id: !input ofen_schalter
     state: "on"
